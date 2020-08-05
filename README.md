@@ -11,3 +11,4 @@ Original `main.tex` file shamelessly stolen from [this repo](https://github.com/
 - [DnD-character-sheets](https://github.com/michaelplews/DnD-character-sheets): Collection of Python character sheets which are compiled to PDF using [dungeonsheets](https://github.com/canismarko/dungeon-sheets/tree/master/dungeonsheets/forms), which populates a classic character sheet with info from Python files
 - [DND-5e-LaTeX-Template](https://github.com/rpgtex/DND-5e-LaTeX-Template): LaTeX template for typesetting documents in the style of D&D (similar to the [Homebrewery](https://homebrewery.naturalcrit.com/) but local)
 - [LaTeX PDF form creation tutorial](http://tug.ctan.org/tex-archive/info/pdf-forms-tutorial/en/forms.pdf) and source code for the examples in an [accompanying package on CTAN](https://www.ctan.org/pkg/pdf-forms-tutorial)
+- [Making a PDF fillable with Adobe](https://www.howtogeek.com/665728/how-to-create-pdf-forms-with-calculations-in-adobe-acrobat/)
