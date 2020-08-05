@@ -1,4 +1,5 @@
-\documentclass[twocolumn]{article}
+%\documentclass[twocolumn]{article}
+\documentclass{article}
 \usepackage{multicol}
 \usepackage{covington}
 \usepackage[letterpaper,margin=.75in]{geometry}
@@ -15,10 +16,135 @@
 \usepackage{fourier-orns}
 %\usepackage{lmodern}
 \usepackage{array}
+\usepackage{hyperref}
 \begin{document}
 
 %\begin{multicols}{2}
+
+% remove page numbers
 \pagenumbering{gobble}
+
+\begin{minipage}{0.4\textwidth}
+  \noindent{\huge{$\mathcal{C}\mathfrak{haracter}$ $\mathcal{N}\mathfrak{ame}$}}
+\end{minipage}
+\begin{minipage}{0.6\textwidth}
+  \begin{Form}
+    \begin{tabular}{|ccc|}
+      \hline
+      \TextField[name=class-lvl, width=0.25\textwidth, color=0.18 0.55 0.34, bordercolor=0 0 1]{}&
+      \TextField[name=bgnd, width=0.25\textwidth, color=0.18 0.55 0.34, bordercolor=0 0 1]{}&
+      \TextField[name=name, width=0.25\textwidth, color=0.18 0.55 0.34, bordercolor=0 0 1]{}\\
+      \textit{\footnotesize{Class \& Level}}& 
+      \textit{\footnotesize{Background}}&
+      \textit{\footnotesize{Player Name}}\\
+      \TextField[name=race, width=0.25\textwidth, color=0.18 0.55 0.34, bordercolor=0 0 1]{}&
+      \TextField[name=align, width=0.25\textwidth, color=0.18 0.55 0.34, bordercolor=0 0 1]{}&
+      \TextField[name=xp, width=0.25\textwidth, color=0.18 0.55 0.34, bordercolor=0 0 1]{}\\
+      \textit{\footnotesize{Race}}&
+      \textit{\footnotesize{Alignment}}&
+      \textit{\footnotesize{Experience Points}}\\
+      \hline
+    \end{tabular}
+  \end{Form}
+\end{minipage}
+
+\vspace{3em}
+
+\begin{multicols}{3}
+  %%% column 1 %%%
+  \begin{minipage}{.1\textwidth} % Ability Scores
+    \begin{tabular}{|c|}
+      \hline
+      Strength\\
+      \\\\\\\\\hline
+      Dexterity\\
+      \\\\\\\\\hline
+      Constitution\\
+      \\\\\\\\\hline
+      Intelligence\\
+      \\\\\\\\\hline
+      Wisdom\\
+      \\\\\\\\\hline
+      Charisma\\
+      \\\\\\\\\hline
+    \end{tabular}
+  \end{minipage}
+  \begin{minipage}{.2\textwidth} % Skills
+    \begin{tabular}{|c|l|}
+      \hline
+      &Inspiration\\\hline
+      &Proficiency Bonus\\\hline
+    \end{tabular}
+    \begin{tabular}{|cl|}
+      \hline
+      &Strength\\
+      &Dexterity\\
+      &Constitution\\
+      &Intelligence\\
+      &Wisdom\\
+      &Charisma\\
+      &\textit{\footnotesize{Saving Throws}}\\\hline
+    \end{tabular}
+  \end{minipage}
+                                                                                                     % Passive perception
+   \begin{tabular}{|m{.05\textwidth}|m{.25\textwidth}|}
+     \hline
+     &\\
+     &Passive Wisdom (Perception)\\
+     &\\\hline
+   \end{tabular}
+
+   % Other Proficiencies & Languages
+   \begin{tabular}{|m{.33\textwidth}|}
+     \hline
+     \\\\\\\\\\\\\\\\\\\\
+     \textit{\footnotesize{Other Proficiencies \& Languages}}\\
+     \hline
+   \end{tabular}
+
+   \vfill\null\columnbreak
+
+   %%% column 2 %%%
+   \begin{Form}
+     \begin{tabular}{|m{.1\textwidth}|m{.09\textwidth}|m{.09\textwidth}|}
+       \hline
+       &&\\
+       &&\\
+       &&\\
+       \textit{\footnotesize{Armor Class}}&
+       \textit{\footnotesize{Initiative}}&
+       \textit{\footnotesize{Speed}}\\
+       \hline
+     \end{tabular}
+   \end{Form}
+
+   % HP
+   \begin{tabular}{|m{.33\textwidth}|}
+     \hline
+     HP Maximum:\\
+     \\\\\\\\\\
+     \textit{\footnotesize{Current Hit Points}}\\
+     \hline
+     \\\\\\\\\\
+     \textit{\footnotesize{Temporary Hit Points}}\\
+     \hline
+   \end{tabular}
+
+   \begin{Form}
+     \begin{tabular}{|m{.15\textwidth}|m{.15\textwidth}|}
+       \hline
+       Total: & Successes \CheckBox[width=1em]{} \CheckBox[width=1em]{} \CheckBox[width=1em]{}\\
+       & Failures \CheckBox[width=1em]{} \CheckBox[width=1em]{} \CheckBox[width=1em]{}\\
+       \textit{\footnotesize{Hit Dice}}&
+       \textit{\footnotesize{Death Saves}}\\
+       \hline
+     \end{tabular}
+   \end{Form}
+
+%%%%%%%%%%%%%%%%%%%%%%%% original sheet %%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+% character name
 \noindent{\huge{$\mathcal{Y}\mathfrak{len}$ $\mathcal{S}\mathfrak{tonecrash}$}}\\
 \noindent Hill Dwarf $\mathfrak{D}$ $\vert$ Bard \twonotes\  $\vert$ Lawful Good \ding{62}
 \vspace{8pt}
