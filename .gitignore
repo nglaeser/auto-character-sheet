@@ -1,0 +1,8 @@
+# tex files
+*.aux
+*.log
+*.pdf
+*.synctex.gz
+
+# other
+*.swp
