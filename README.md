@@ -17,3 +17,4 @@ Original `main.tex` file shamelessly stolen from [this repo](https://github.com/
 - [DND-5e-LaTeX-Template](https://github.com/rpgtex/DND-5e-LaTeX-Template): LaTeX template for typesetting documents in the style of D&D (similar to the [Homebrewery](https://homebrewery.naturalcrit.com/) but local)
 - [LaTeX PDF form creation tutorial](http://tug.ctan.org/tex-archive/info/pdf-forms-tutorial/en/forms.pdf) and source code for the examples in an [accompanying package on CTAN](https://www.ctan.org/pkg/pdf-forms-tutorial)
 - [Making a PDF fillable with Adobe](https://www.howtogeek.com/665728/how-to-create-pdf-forms-with-calculations-in-adobe-acrobat/)
+- [`tabularx` LaTeX package documentation](http://www.texdoc.net/texmf-dist/doc/latex/tools/tabularx.pdf)
