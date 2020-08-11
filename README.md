@@ -11,6 +11,7 @@ Original `main.tex` file shamelessly stolen from [this repo](https://github.com/
 ## Reference Links
 
 - [Simple LaTeX form examples with `hyperref`](https://tex.stackexchange.com/questions/14842/creating-fillable-pdfs)
+  - [Forms optional params](http://www2.washjeff.edu/users/rhigginbottom/latex/resources/hyperref-manual.pdf) (see section 6.2)
 - [LaTeX form with Javascript through `insdljs`](https://tex.stackexchange.com/questions/7869/how-do-you-say-happy-new-year-with-latex)
 - [DnD-character-sheets](https://github.com/michaelplews/DnD-character-sheets): Collection of Python character sheets which are compiled to PDF using [dungeonsheets](https://github.com/canismarko/dungeon-sheets/tree/master/dungeonsheets/forms), which populates a classic character sheet with info from Python files
 - [DND-5e-LaTeX-Template](https://github.com/rpgtex/DND-5e-LaTeX-Template): LaTeX template for typesetting documents in the style of D&D (similar to the [Homebrewery](https://homebrewery.naturalcrit.com/) but local)

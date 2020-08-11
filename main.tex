@@ -17,6 +17,10 @@
 %\usepackage{lmodern}
 \usepackage{array}
 \usepackage{hyperref}
+\usepackage{tabularx}
+\newcolumntype{C}[1]{>{\centering\arraybackslash\hsize=#1\hsize}X}
+\newcolumntype{L}[1]{>{\arraybackslash\hsize=#1\hsize}X}
+\newcolumntype{M}[1]{>{\arraybackslash\hsize=#1\hsize}X}
 \begin{document}
 
 %\begin{multicols}{2}
@@ -52,30 +56,30 @@
 
   \begin{minipage}{.3\textwidth}
   %%% column 1 %%%
-  \begin{minipage}{.45\textwidth} % Ability Scores
-    \begin{tabular}{|m{.8\textwidth}|}
+  \begin{minipage}{.4\textwidth} % Ability Scores
+    \begin{tabularx}{\textwidth}{| C{1} |}
       \hline
-      Strength\\
+      \small{Strength}\\
       \\\\\\\\\hline
-      Dexterity\\
+      \small{Dexterity}\\
       \\\\\\\\\hline
-      Constitution\\
+      \small{Constitution}\\
       \\\\\\\\\hline
-      Intelligence\\
+      \small{Intelligence}\\
       \\\\\\\\\hline
-      Wisdom\\
+      \small{Wisdom}\\
       \\\\\\\\\hline
-      Charisma\\
+      \small{Charisma}\\
       \\\\\\\\\hline
-    \end{tabular}
+    \end{tabularx}
   \end{minipage}\hfill
-  \begin{minipage}{.55\textwidth} % Skills
-    \begin{tabular}{|m{.01\textwidth}m{.99\textwidth}|}
+  \begin{minipage}{.58\textwidth} % Skills
+    \begin{tabularx}{\textwidth}{| L{.05} L{1.95} |}
       \hline
-      \CheckBox[width=1em,height=.5em]{}&Inspiration\\\hline
-      &Proficiency Bonus\\\hline
-    \end{tabular}
-    \begin{tabular}{|m{.01\textwidth}m{.99\textwidth}|}
+      \CheckBox[name=insp,width=1em,height=.5em,bordercolor=0 0 1]{}&Inspiration\\\hline
+      &Prof. Bonus\\\hline
+    \end{tabularx}
+    \begin{tabularx}{\textwidth}{| L{.05} L{1.95} |}
       \hline
       &Strength\\
       &Dexterity\\
@@ -84,113 +88,120 @@
       &Wisdom\\
       &Charisma\\
       &\textit{\footnotesize{Saving Throws}}\\\hline
-    \end{tabular}
-    \begin{tabular}{|m{.01\textwidth}m{.99\textwidth}|}
+    \end{tabularx}
+    \begin{tabularx}{\textwidth}{| L{.05} L{1.95} |}
       \hline
-      &Acrobatics \textit{\footnotesize{(Dex)}}\\
-      &Anim. Handl.\textit{\footnotesize{(Wis)}}\\
-      &Arcana \textit{\footnotesize{(Int)}}\\
-      &Athletics \textit{\footnotesize{(Str)}}\\
-      &Deception \textit{\footnotesize{(Cha)}}\\
-      &History \textit{\footnotesize{(Int)}}\\
-      &Insight \textit{\footnotesize{(Wis)}}\\
-      &Intimidation \textit{\footnotesize{(Cha)}}\\
-      &Investigation \textit{\footnotesize{(Int)}}\\
-      &Medicine \textit{\footnotesize{(Wis)}}\\
-      &Nature \textit{\footnotesize{(Int)}}\\
-      &Perception \textit{\footnotesize{(Wis)}}\\
-      &Performance \textit{\footnotesize{(Cha)}}\\
-      &Persuasion \textit{\footnotesize{(Cha)}}\\
-      &Religion \textit{\footnotesize{(Int)}}\\
-      &Sl. of Hand \textit{\footnotesize{(Dex)}}\\
-      &Stealth \textit{\footnotesize{(Dex)}}\\
-      &Survival \textit{\footnotesize{(Wis)}}\\
+      &\footnotesize{Acrobatics} \textit{\scriptsize{(Dex)}}\\
+      &\footnotesize{An.Handl.} \textit{\scriptsize{(Wis)}}\\
+      &\footnotesize{Arcana} \textit{\scriptsize{(Int)}}\\
+      &\footnotesize{Athletics} \textit{\scriptsize{(Str)}}\\
+      &\footnotesize{Deception} \textit{\scriptsize{(Cha)}}\\
+      &\footnotesize{History} \textit{\scriptsize{(Int)}}\\
+      &\footnotesize{Insight} \textit{\scriptsize{(Wis)}}\\
+      &\footnotesize{Intimid.} \textit{\scriptsize{(Cha)}}\\
+      &\footnotesize{Investig.} \textit{\scriptsize{(Int)}}\\
+      &\footnotesize{Medicine} \textit{\scriptsize{(Wis)}}\\
+      &\footnotesize{Nature} \textit{\scriptsize{(Int)}}\\
+      &\footnotesize{Perception} \textit{\scriptsize{(Wis)}}\\
+      &\footnotesize{Perf.} \textit{\scriptsize{(Cha)}}\\
+      &\footnotesize{Persuasion} \textit{\scriptsize{(Cha)}}\\
+      &\footnotesize{Religion} \textit{\scriptsize{(Int)}}\\
+      &\footnotesize{Sl. of Hand} \textit{\scriptsize{(Dex)}}\\
+      &\footnotesize{Stealth} \textit{\scriptsize{(Dex)}}\\
+      &\footnotesize{Survival} \textit{\scriptsize{(Wis)}}\\
       &\textit{\footnotesize{Skills}}\\\hline
-    \end{tabular}
+    \end{tabularx}
   \vspace{2em}
   \end{minipage}
   % Passive perception
   %\begin{minipage}{.33\textwidth}
-   \begin{tabular}{|m{.1\textwidth}|m{.9\textwidth}|}
+   %\begin{tabular}{|m{.1\textwidth}|m{.9\textwidth}|}
+  \def\tabularxcolumn#1{m{#1}}
+  \begin{tabularx}{\textwidth}{| @{}C{.3}@{} | @{\hspace{.5em}}M{1.7} |}
      \hline
-     &\\
-     &Passive Wisdom (Perception)\\
-     &\\\hline
-   \end{tabular}
+     %&\\
+     \TextField[name=passive,width=.15\textwidth,height=3em,bordercolor=0 0 1]{}
+       &\small{Passive Wisdom (Perception)}\\
+     %&\\
+     \hline
+   \end{tabularx}
 
    % Other Proficiencies & Languages
-   \begin{tabular}{|m{\textwidth}|}
+   \begin{tabularx}{\textwidth}{|X|}
      \hline
-     \\\\\\\\\\\\\\\\\\\\\\\\\\
-     \vspace{.5em}\\
+     \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+     %\vspace{5em}\\
      \textit{\footnotesize{Other Proficiencies \& Languages}}\\
      \hline
-   \end{tabular}
+   \end{tabularx}
  \end{minipage}
   \begin{minipage}{.3\textwidth}
     %%%%%%%%%%%%%%  column 2 %%%%%%%%%%%%%%%%
    \begin{Form}
-     \begin{tabular}{|m{.3\textwidth}|m{.3\textwidth}|m{.3\textwidth}|}
+     \begin{tabularx}{\textwidth}{|@{}C{1}@{}|@{}C{1}@{}|@{}C{1}@{}|}
+     %\begin{tabularx}{\textwidth}{|X|X|X|}
        \hline
        &&\\
        &&\\
        &&\\
-       \textit{\footnotesize{Armor Class}}&
+       \textit{\scriptsize{Armor Class}}&
        \textit{\footnotesize{Initiative}}&
        \textit{\footnotesize{Speed}}\\
        \hline
-     \end{tabular}
+     \end{tabularx}
    \end{Form}
 
    % HP
-   \begin{tabular}{|m{.5\textwidth}m{.5\textwidth}|}
+   \begin{tabularx}{\textwidth}{|@{}C{1}@{} @{}C{1}@{}|}
      \hline
-     &\\&\\&\\&\\&\\&\\
+     &\\&\\
+     \multicolumn{2}{|c|}{\Huge{/}}\\
+     &\\&\\
      \textit{\footnotesize{Current Hit Points}}&\textit{\footnotesize{HP Maximum}}\\
      \hline
      &\\&\\&\\&\\&\\&\\
      \multicolumn{2}{|l|}{\textit{\footnotesize{Temporary Hit Points}}}\\
      \hline
-   \end{tabular}
+   \end{tabularx}
 
    \begin{Form}
-     \begin{tabular}{|m{.5\textwidth}|m{.5\textwidth}|}
+     \begin{tabularx}{\textwidth}{|X|X|}
        \hline
-       &\\
        & Successes\\
-       & \CheckBox[width=1em,height=1em]{} \CheckBox[width=1em,height=1em]{} \CheckBox[width=1em,height=1em]{}\\
+       & \CheckBox[name=succ1,width=1em,height=1em,bordercolor=0 0 1]{} \CheckBox[name=succ2,width=1em,height=1em,bordercolor=0 0 1]{} \CheckBox[name=succ3,width=1em,height=1em,bordercolor=0 0 1]{}\\
       & Failures\\
-       & \CheckBox[width=1em,height=1em]{} \CheckBox[width=1em,height=1em]{} \CheckBox[width=1em,height=1em]{}\\
+       & \CheckBox[name=fail1,width=1em,height=1em,bordercolor=0 0 1]{} \CheckBox[name=fail2,width=1em,height=1em,bordercolor=0 0 1]{} \CheckBox[name=fail3,width=1em,height=1em,bordercolor=0 0 1]{}\\
        \textit{\footnotesize{Hit Dice / }}\textit{\footnotesize{Total}}&
        \textit{\footnotesize{Death Saves}}\\
        \hline
-     \end{tabular}
+     \end{tabularx}
    \end{Form}
 
-   \begin{tabular}{|m{.4\textwidth}m{.1\textwidth}m{.4\textwidth}|}
+   \begin{tabularx}{\textwidth}{|L{1.2}L{.6}L{1.2}|}
      \hline
      \textit{\footnotesize{Name}} & \textit{\footnotesize{Atk Bonus}} & \textit{\footnotesize{Damage/Type}}\\
      &&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\
      \multicolumn{2}{|l}{\textit{\footnotesize{Attacks \& Spellcasting}}}&\\
      \hline
-   \end{tabular}
+   \end{tabularx}
 
    %\Large{\textit{Treasure}}\\
-   \begin{tabular}{|ll|}
+   \begin{tabularx}{\textwidth}{|L{.6}L{1.4}|}
      \hline
      \textit{\footnotesize{Treasure}}&\\
-     PP \rule{.5in}{.2pt} &Miscellaneous:\\
-     GP \rule{.5in}{.2pt} &\rule{1.3in}{.2pt}\\
-     EP \rule{.5in}{.2pt} &\rule{1.3in}{.2pt}\\
-     SP \rule{.5in}{.2pt} &\rule{1.3in}{.2pt}\\
-     CP \rule{.5in}{.2pt} &\rule{1.3in}{.2pt}\\
-     \multicolumn{2}{|l|}{\rule{2.2in}{.2pt}}\\
-     \multicolumn{2}{|l|}{\rule{2.2in}{.2pt}}\\
-     \multicolumn{2}{|l|}{\rule{2.2in}{.2pt}}\\
-     \multicolumn{2}{|l|}{\rule{2.2in}{.2pt}}\\
-     \multicolumn{2}{|l|}{\rule{2.2in}{.2pt}}\\
+     PP \TextField[name=pp,width=.14\textwidth,bordercolor=0 0 1]{}&Miscellaneous:\\
+     GP \TextField[name=gp,width=.14\textwidth,bordercolor=0 0 1]{} &\rule{.6\textwidth}{.2pt}\\
+     EP \TextField[name=ep,width=.14\textwidth,bordercolor=0 0 1]{} &\rule{.6\textwidth}{.2pt}\\
+     SP \TextField[name=sp,width=.14\textwidth,bordercolor=0 0 1]{} &\rule{.6\textwidth}{.2pt}\\
+     CP \TextField[name=cp,width=.14\textwidth,bordercolor=0 0 1]{} &\rule{.6\textwidth}{.2pt}\\
+     \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
+     \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
+     \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
+     \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
+     \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
+     \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
      \hline
-   \end{tabular}
+   \end{tabularx}
  \end{minipage} %\vfill\null\columnbreak
  \begin{minipage}{.3\textwidth}
    %%%%%%%%%%%%%%  column 2 %%%%%%%%%%%%%%%%
