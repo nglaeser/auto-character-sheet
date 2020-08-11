@@ -2,7 +2,7 @@
 \documentclass{article}
 \usepackage{multicol}
 \usepackage{covington}
-\usepackage[letterpaper,margin=.75in]{geometry}
+\usepackage[letterpaper,margin=.75in,lmargin=.5in]{geometry}
 \usepackage{pgfpages}
 \usepackage{amsfonts,amsmath,amssymb}
 \usepackage{stmaryrd}
@@ -31,15 +31,15 @@
   \begin{Form}
     \begin{tabular}{|ccc|}
       \hline
-      \TextField[name=class-lvl, width=0.25\textwidth, color=0.18 0.55 0.34, bordercolor=0 0 1]{}&
-      \TextField[name=bgnd, width=0.25\textwidth, color=0.18 0.55 0.34, bordercolor=0 0 1]{}&
-      \TextField[name=name, width=0.25\textwidth, color=0.18 0.55 0.34, bordercolor=0 0 1]{}\\
+      \TextField[name=class-lvl, width=0.25\textwidth, bordercolor=0 0 1]{}&
+      \TextField[name=bgnd, width=0.25\textwidth, bordercolor=0 0 1]{}&
+      \TextField[name=name, width=0.25\textwidth, bordercolor=0 0 1]{}\\
       \textit{\footnotesize{Class \& Level}}& 
       \textit{\footnotesize{Background}}&
       \textit{\footnotesize{Player Name}}\\
-      \TextField[name=race, width=0.25\textwidth, color=0.18 0.55 0.34, bordercolor=0 0 1]{}&
-      \TextField[name=align, width=0.25\textwidth, color=0.18 0.55 0.34, bordercolor=0 0 1]{}&
-      \TextField[name=xp, width=0.25\textwidth, color=0.18 0.55 0.34, bordercolor=0 0 1]{}\\
+      \TextField[name=race, width=0.25\textwidth, bordercolor=0 0 1]{}&
+      \TextField[name=align, width=0.25\textwidth, bordercolor=0 0 1]{}&
+      \TextField[name=xp, width=0.25\textwidth, bordercolor=0 0 1]{}\\
       \textit{\footnotesize{Race}}&
       \textit{\footnotesize{Alignment}}&
       \textit{\footnotesize{Experience Points}}\\
@@ -48,12 +48,12 @@
   \end{Form}
 \end{minipage}
 
-\vspace{3em}
+\vspace{2em}
 
-\begin{multicols}{3}
+  \begin{minipage}{.3\textwidth}
   %%% column 1 %%%
-  \begin{minipage}{.1\textwidth} % Ability Scores
-    \begin{tabular}{|c|}
+  \begin{minipage}{.45\textwidth} % Ability Scores
+    \begin{tabular}{|m{.8\textwidth}|}
       \hline
       Strength\\
       \\\\\\\\\hline
@@ -68,14 +68,14 @@
       Charisma\\
       \\\\\\\\\hline
     \end{tabular}
-  \end{minipage}
-  \begin{minipage}{.2\textwidth} % Skills
-    \begin{tabular}{|c|l|}
+  \end{minipage}\hfill
+  \begin{minipage}{.55\textwidth} % Skills
+    \begin{tabular}{|m{.01\textwidth}m{.99\textwidth}|}
       \hline
-      &Inspiration\\\hline
+      \CheckBox[width=1em,height=.5em]{}&Inspiration\\\hline
       &Proficiency Bonus\\\hline
     \end{tabular}
-    \begin{tabular}{|cl|}
+    \begin{tabular}{|m{.01\textwidth}m{.99\textwidth}|}
       \hline
       &Strength\\
       &Dexterity\\
@@ -85,9 +85,33 @@
       &Charisma\\
       &\textit{\footnotesize{Saving Throws}}\\\hline
     \end{tabular}
+    \begin{tabular}{|m{.01\textwidth}m{.99\textwidth}|}
+      \hline
+      &Acrobatics \textit{\footnotesize{(Dex)}}\\
+      &Anim. Handl.\textit{\footnotesize{(Wis)}}\\
+      &Arcana \textit{\footnotesize{(Int)}}\\
+      &Athletics \textit{\footnotesize{(Str)}}\\
+      &Deception \textit{\footnotesize{(Cha)}}\\
+      &History \textit{\footnotesize{(Int)}}\\
+      &Insight \textit{\footnotesize{(Wis)}}\\
+      &Intimidation \textit{\footnotesize{(Cha)}}\\
+      &Investigation \textit{\footnotesize{(Int)}}\\
+      &Medicine \textit{\footnotesize{(Wis)}}\\
+      &Nature \textit{\footnotesize{(Int)}}\\
+      &Perception \textit{\footnotesize{(Wis)}}\\
+      &Performance \textit{\footnotesize{(Cha)}}\\
+      &Persuasion \textit{\footnotesize{(Cha)}}\\
+      &Religion \textit{\footnotesize{(Int)}}\\
+      &Sl. of Hand \textit{\footnotesize{(Dex)}}\\
+      &Stealth \textit{\footnotesize{(Dex)}}\\
+      &Survival \textit{\footnotesize{(Wis)}}\\
+      &\textit{\footnotesize{Skills}}\\\hline
+    \end{tabular}
+  \vspace{2em}
   \end{minipage}
-                                                                                                     % Passive perception
-   \begin{tabular}{|m{.05\textwidth}|m{.25\textwidth}|}
+  % Passive perception
+  %\begin{minipage}{.33\textwidth}
+   \begin{tabular}{|m{.1\textwidth}|m{.9\textwidth}|}
      \hline
      &\\
      &Passive Wisdom (Perception)\\
@@ -95,18 +119,18 @@
    \end{tabular}
 
    % Other Proficiencies & Languages
-   \begin{tabular}{|m{.33\textwidth}|}
+   \begin{tabular}{|m{\textwidth}|}
      \hline
-     \\\\\\\\\\\\\\\\\\\\
+     \\\\\\\\\\\\\\\\\\\\\\\\\\
+     \vspace{.5em}\\
      \textit{\footnotesize{Other Proficiencies \& Languages}}\\
      \hline
    \end{tabular}
-
-   \vfill\null\columnbreak
-
-   %%% column 2 %%%
+ \end{minipage}
+  \begin{minipage}{.3\textwidth}
+    %%%%%%%%%%%%%%  column 2 %%%%%%%%%%%%%%%%
    \begin{Form}
-     \begin{tabular}{|m{.1\textwidth}|m{.09\textwidth}|m{.09\textwidth}|}
+     \begin{tabular}{|m{.3\textwidth}|m{.3\textwidth}|m{.3\textwidth}|}
        \hline
        &&\\
        &&\\
@@ -119,31 +143,85 @@
    \end{Form}
 
    % HP
-   \begin{tabular}{|m{.33\textwidth}|}
+   \begin{tabular}{|m{.5\textwidth}m{.5\textwidth}|}
      \hline
-     HP Maximum:\\
-     \\\\\\\\\\
-     \textit{\footnotesize{Current Hit Points}}\\
+     &\\&\\&\\&\\&\\&\\
+     \textit{\footnotesize{Current Hit Points}}&\textit{\footnotesize{HP Maximum}}\\
      \hline
-     \\\\\\\\\\
-     \textit{\footnotesize{Temporary Hit Points}}\\
+     &\\&\\&\\&\\&\\&\\
+     \multicolumn{2}{|l|}{\textit{\footnotesize{Temporary Hit Points}}}\\
      \hline
    \end{tabular}
 
    \begin{Form}
-     \begin{tabular}{|m{.15\textwidth}|m{.15\textwidth}|}
+     \begin{tabular}{|m{.5\textwidth}|m{.5\textwidth}|}
        \hline
-       Total: & Successes \CheckBox[width=1em]{} \CheckBox[width=1em]{} \CheckBox[width=1em]{}\\
-       & Failures \CheckBox[width=1em]{} \CheckBox[width=1em]{} \CheckBox[width=1em]{}\\
-       \textit{\footnotesize{Hit Dice}}&
+       &\\
+       & Successes\\
+       & \CheckBox[width=1em,height=1em]{} \CheckBox[width=1em,height=1em]{} \CheckBox[width=1em,height=1em]{}\\
+      & Failures\\
+       & \CheckBox[width=1em,height=1em]{} \CheckBox[width=1em,height=1em]{} \CheckBox[width=1em,height=1em]{}\\
+       \textit{\footnotesize{Hit Dice / }}\textit{\footnotesize{Total}}&
        \textit{\footnotesize{Death Saves}}\\
        \hline
      \end{tabular}
    \end{Form}
 
+   \begin{tabular}{|m{.4\textwidth}m{.1\textwidth}m{.4\textwidth}|}
+     \hline
+     \textit{\footnotesize{Name}} & \textit{\footnotesize{Atk Bonus}} & \textit{\footnotesize{Damage/Type}}\\
+     &&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\
+     \multicolumn{2}{|l}{\textit{\footnotesize{Attacks \& Spellcasting}}}&\\
+     \hline
+   \end{tabular}
+
+   %\Large{\textit{Treasure}}\\
+   \begin{tabular}{|ll|}
+     \hline
+     \textit{\footnotesize{Treasure}}&\\
+     PP \rule{.5in}{.2pt} &Miscellaneous:\\
+     GP \rule{.5in}{.2pt} &\rule{1.3in}{.2pt}\\
+     EP \rule{.5in}{.2pt} &\rule{1.3in}{.2pt}\\
+     SP \rule{.5in}{.2pt} &\rule{1.3in}{.2pt}\\
+     CP \rule{.5in}{.2pt} &\rule{1.3in}{.2pt}\\
+     \multicolumn{2}{|l|}{\rule{2.2in}{.2pt}}\\
+     \multicolumn{2}{|l|}{\rule{2.2in}{.2pt}}\\
+     \multicolumn{2}{|l|}{\rule{2.2in}{.2pt}}\\
+     \multicolumn{2}{|l|}{\rule{2.2in}{.2pt}}\\
+     \multicolumn{2}{|l|}{\rule{2.2in}{.2pt}}\\
+     \hline
+   \end{tabular}
+ \end{minipage} %\vfill\null\columnbreak
+ \begin{minipage}{.3\textwidth}
+   %%%%%%%%%%%%%%  column 2 %%%%%%%%%%%%%%%%
+   \begin{tabular}{|m{\textwidth}|}
+     \hline
+     \\\\\\\\\\
+     \textit{\footnotesize{Personality Traits}}\\
+     \hline
+     \\\\\\\\\\
+     \textit{\footnotesize{Ideals}}\\
+     \hline
+     \\\\\\\\\\
+     \textit{\footnotesize{Bonds}}\\
+     \hline
+     \\\\\\\\\\
+     \textit{\footnotesize{Flaws}}\\
+     \hline
+   \end{tabular}
+
+   \begin{tabular}{|m{\textwidth}|}
+     \hline
+     \vspace{28em}
+     \textit{\footnotesize{Features \& Traits}}\\
+     \hline
+   \end{tabular}
+ \end{minipage}
+
 %%%%%%%%%%%%%%%%%%%%%%%% original sheet %%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 
+\begin{multicols}{2}
 % character name
 \noindent{\huge{$\mathcal{Y}\mathfrak{len}$ $\mathcal{S}\mathfrak{tonecrash}$}}\\
 \noindent Hill Dwarf $\mathfrak{D}$ $\vert$ Bard \twonotes\  $\vert$ Lawful Good \ding{62}
@@ -299,7 +377,7 @@ Start with lowest HP target and subtract each target's HP from 3d8 (+2d8 per spe
 \hline
 \end{tabular}
 
-
+\end{multicols}
 
 
 
