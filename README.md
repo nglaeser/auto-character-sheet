@@ -19,6 +19,7 @@ Original `main.tex` file shamelessly stolen from [this repo](https://github.com/
 - [LaTeX PDF form creation tutorial](http://tug.ctan.org/tex-archive/info/pdf-forms-tutorial/en/forms.pdf) and source code for the examples in an [accompanying package on CTAN](https://www.ctan.org/pkg/pdf-forms-tutorial)
 - [Making a PDF fillable with Adobe](https://www.howtogeek.com/665728/how-to-create-pdf-forms-with-calculations-in-adobe-acrobat/)
 - [`tabularx` LaTeX package documentation](http://www.texdoc.net/texmf-dist/doc/latex/tools/tabularx.pdf)
+- Potentially [a way to make radio buttons that act like checkboxes but look like radio buttons](https://tex.stackexchange.com/a/74543)?
 
 ## Notes on `hyperref`
 
@@ -37,7 +38,7 @@ var notChecked = this.getField("myCheckBox").value == "Off";
 
 #### The `calculate` parameter
 
-This auto-calculates the contents of a field according to a JavaScript function. It auto-updates anytime anything in the form changes.
+This auto-calculates the contents of a field according to a JavaScript function. It auto-updates anytime anything in the form changes. Unfortunately, I haven't figured out how (and whether it's even possible) to call functions with arguments.
 
 Example:
 ```
