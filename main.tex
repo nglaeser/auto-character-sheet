@@ -21,7 +21,7 @@
 \usepackage[pdftex]{insdljs}
 \newcolumntype{C}[1]{>{\centering\arraybackslash\hsize=#1\hsize}X}
 \newcolumntype{L}[1]{>{\arraybackslash\hsize=#1\hsize}X}
-\newcolumntype{M}[1]{>{\arraybackslash\hsize=#1\hsize}X}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash\hsize=#1\hsize}X}
 
 \begin{insDLJS}[test]{test}{JavaScript}
   %function calcModifier(var ability) {
@@ -35,6 +35,16 @@
       else { event.value = ""; }
     }
   }
+  function calcProfBonus() {
+    var level = this.getField("lvl").value;
+    if (level == "") { 
+      this.getField("prof-bonus").value = "";
+    }
+    else {
+      var bonus = 2 + Math.floor((level-1)/4);
+      this.getField("prof-bonus").value = "+" + bonus;
+    }
+  }
 \end{insDLJS}
 
 \begin{document}
@@ -44,27 +54,31 @@
 % remove page numbers
 \pagenumbering{gobble}
 
-\begin{minipage}{0.4\textwidth}
+\begin{minipage}{0.33\textwidth}
   \noindent{\huge{$\mathcal{C}\mathfrak{haracter}$ $\mathcal{N}\mathfrak{ame}$}}
 \end{minipage}
 \begin{minipage}{0.6\textwidth}
   \begin{Form}
-    \begin{tabular}{|ccc|}
+    %\begin{tabular}{|cccc|}
+    \begin{tabularx}{\textwidth}{| C{1.33} C{1.33} R{.33} L{1} |}
       \hline
-      \TextField[name=class-lvl, width=0.25\textwidth, bordercolor=0 0 1]{}&
-      \TextField[name=bgnd, width=0.25\textwidth, bordercolor=0 0 1]{}&
-      \TextField[name=name, width=0.25\textwidth, bordercolor=0 0 1]{}\\
-      \textit{\footnotesize{Class \& Level}}& 
+      \TextField[name=class, width=0.3\textwidth, bordercolor=0 0 1]{}&
+      \TextField[name=bgnd, width=0.3\textwidth, bordercolor=0 0 1]{}&
+      \multicolumn{2}{c|}{\TextField[name=name, width=0.33\textwidth, bordercolor=0 0 1]{}}\\
+      \textit{\footnotesize{Class}}& 
       \textit{\footnotesize{Background}}&
-      \textit{\footnotesize{Player Name}}\\
-      \TextField[name=race, width=0.25\textwidth, bordercolor=0 0 1]{}&
-      \TextField[name=align, width=0.25\textwidth, bordercolor=0 0 1]{}&
-      \TextField[name=xp, width=0.25\textwidth, bordercolor=0 0 1]{}\\
+      \multicolumn{2}{c|}{\textit{\footnotesize{Player Name}}}\\
+      \TextField[name=race, width=0.3\textwidth, bordercolor=0 0 1]{}&
+      \TextField[name=align, width=0.3\textwidth, bordercolor=0 0 1]{}&
+      \TextField[name=lvl, width=0.1\textwidth, bordercolor=0 0 1]{}&
+      \TextField[name=xp, width=0.22\textwidth, bordercolor=0 0 1]{}\\
       \textit{\footnotesize{Race}}&
       \textit{\footnotesize{Alignment}}&
-      \textit{\footnotesize{Experience Points}}\\
+      \textit{\footnotesize{Level}}&
+      \textit{\footnotesize{Experience Pts}}\\
       \hline
-    \end{tabular}
+    \end{tabularx}
+    %\end{tabular}
   \end{Form}
 \end{minipage}
 
@@ -159,7 +173,7 @@
     \begin{tabularx}{\textwidth}{| L{.05} L{1.95} |}
       \hline
       \CheckBox[name=insp,width=1em,height=.5em,bordercolor=0 0 1]{}&Inspiration\\\hline
-      &Prof. Bonus\\\hline
+      \TextField[name=prof-bonus, width=1em, charsize=.8em, bordercolor=1 1 1, readonly=true, calculate={calcProfBonus()}]{}&Prof. Bonus\\\hline
     \end{tabularx}
     \begin{tabularx}{\textwidth}{| L{.05} L{1.95} |}
       \hline
@@ -199,7 +213,7 @@
   %\begin{minipage}{.33\textwidth}
    %\begin{tabular}{|m{.1\textwidth}|m{.9\textwidth}|}
   \def\tabularxcolumn#1{m{#1}}
-  \begin{tabularx}{\textwidth}{| @{}C{.3}@{} | @{\hspace{.5em}}M{1.7} |}
+  \begin{tabularx}{\textwidth}{| @{}C{.3}@{} | @{\hspace{.5em}}C{1.7} |}
      \hline
      %&\\
      \TextField[name=passive,width=.15\textwidth,height=3em,bordercolor=0 0 1]{}
