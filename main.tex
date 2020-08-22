@@ -18,9 +18,25 @@
 \usepackage{array}
 \usepackage{hyperref}
 \usepackage{tabularx}
+\usepackage[pdftex]{insdljs}
 \newcolumntype{C}[1]{>{\centering\arraybackslash\hsize=#1\hsize}X}
 \newcolumntype{L}[1]{>{\arraybackslash\hsize=#1\hsize}X}
 \newcolumntype{M}[1]{>{\arraybackslash\hsize=#1\hsize}X}
+
+\begin{insDLJS}[test]{test}{JavaScript}
+  %function calcModifier(var ability) {
+  function calcModifier() {
+    if (this.getField("str-score").value == "") { event.value = "" }
+    else {
+      var score = 0+this.getField("str-score").value;
+      var mod = Math.floor((score-10)/2);
+      if (mod >= 0) { event.value = "+" + mod; }
+      else if (mod < 0) { event.value = mod; }
+      else { event.value = ""; }
+    }
+  }
+\end{insDLJS}
+
 \begin{document}
 
 %\begin{multicols}{2}
@@ -60,17 +76,83 @@
     \begin{tabularx}{\textwidth}{| C{1} |}
       \hline
       \small{Strength}\\
-      \\\\\\\\\hline
+      \TextField[name=str-mod, height=3em, width=0.8\textwidth, align=1, charsize=2em, bordercolor=1 1 1, readonly=true, calculate={%
+        if (this.getField("str-score").value == "") { event.value = "" }
+        else {
+          var score = 0+this.getField("str-score").value;
+          var mod = Math.floor((score-10)/2);
+          if (mod >= 0) { event.value = "+" + mod; }
+          else if (mod < 0) { event.value = mod; }
+          else { event.value = ""; }
+        }
+      }]{}\\
+      \TextField[name=str-score, width=0.25\textwidth, bordercolor=0 0 1]{}\\
+      \hline
       \small{Dexterity}\\
-      \\\\\\\\\hline
+      \TextField[name=dex-mod, height=3em, width=0.8\textwidth, align=1, charsize=2em, bordercolor=1 1 1, readonly=true, calculate={%
+        if (this.getField("dex-score").value == "") { event.value = "" }
+        else {
+          var score = 0+this.getField("dex-score").value;
+          var mod = Math.floor((score-10)/2);
+          if (mod >= 0) { event.value = "+" + mod; }
+          else if (mod < 0) { event.value = mod; }
+          else { event.value = ""; }
+        }
+      }]{}\\
+      \TextField[name=dex-score, width=0.25\textwidth, bordercolor=0 0 1]{}\\
+      \hline
       \small{Constitution}\\
-      \\\\\\\\\hline
+      \TextField[name=con-mod, height=3em, width=0.8\textwidth, align=1, charsize=2em, bordercolor=1 1 1, readonly=true, calculate={%
+        if (this.getField("con-score").value == "") { event.value = "" }
+        else {
+          var score = 0+this.getField("con-score").value;
+          var mod = Math.floor((score-10)/2);
+          if (mod >= 0) { event.value = "+" + mod; }
+          else if (mod < 0) { event.value = mod; }
+          else { event.value = ""; }
+        }
+      }]{}\\
+      \TextField[name=con-score, width=0.25\textwidth, bordercolor=0 0 1]{}\\
+      \hline
       \small{Intelligence}\\
-      \\\\\\\\\hline
+      \TextField[name=int-mod, height=3em, width=0.8\textwidth, align=1, charsize=2em, bordercolor=1 1 1, readonly=true, calculate={%
+        if (this.getField("int-score").value == "") { event.value = "" }
+        else {
+          var score = 0+this.getField("int-score").value;
+          var mod = Math.floor((score-10)/2);
+          if (mod >= 0) { event.value = "+" + mod; }
+          else if (mod < 0) { event.value = mod; }
+          else { event.value = ""; }
+        }
+      }]{}\\
+      \TextField[name=int-score, width=0.25\textwidth, bordercolor=0 0 1]{}\\
+      \hline
       \small{Wisdom}\\
-      \\\\\\\\\hline
+      \TextField[name=wis-mod, height=3em, width=0.8\textwidth, align=1, charsize=2em, bordercolor=1 1 1, readonly=true, calculate={%
+        if (this.getField("wis-score").value == "") { event.value = "" }
+        else {
+          var score = 0+this.getField("wis-score").value;
+          var mod = Math.floor((score-10)/2);
+          if (mod >= 0) { event.value = "+" + mod; }
+          else if (mod < 0) { event.value = mod; }
+          else { event.value = ""; }
+        }
+      }]{}\\
+      \TextField[name=wis-score, width=0.25\textwidth, bordercolor=0 0 1]{}\\
+      \hline
       \small{Charisma}\\
-      \\\\\\\\\hline
+      \TextField[name=cha-mod, height=3em, width=0.8\textwidth, align=1, charsize=2em, bordercolor=1 1 1, readonly=true, calculate={%
+        if (this.getField("cha-score").value == "") { event.value = "" }
+        else {
+          var score = 0+this.getField("cha-score").value;
+          var mod = Math.floor((score-10)/2);
+          if (mod >= 0) { event.value = "+" + mod; }
+          else if (mod < 0) { event.value = mod; }
+          else { event.value = ""; }
+        }
+      }]{}\\
+      \TextField[name=cha-score, width=0.25\textwidth, bordercolor=0 0 1]{}\\
+      \hline
     \end{tabularx}
   \end{minipage}\hfill
   \begin{minipage}{.58\textwidth} % Skills
