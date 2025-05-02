@@ -1,6 +1,6 @@
 %\documentclass[twocolumn]{article}
 \documentclass{article}
-\usepackage{multicol}
+\usepackage{multicol,multirow}
 \usepackage{covington}
 \usepackage[letterpaper,margin=.75in,lmargin=.5in]{geometry}
 \usepackage{pgfpages}
@@ -55,25 +55,152 @@
     }
   }
   function getSpeed() {
-    var race = this.getField("race").value;
+    var species = this.getField("species").value;
     var speed;
 
-    switch (race) {
-      case "Human":
+    switch (species) {
+      case "Aasimar":
+      case "Dragonborn":
+      case "Dwarf":
       case "Elf":
+      case "Gnome":
+      case "Halfling":
+      case "Human":
+      case "Orc":
+      case "Tiefling":
         speed = 30;
         break;
-      case "Dwarf":
-        speed = 30;
+      case "Goliath":
+        speed = 35;
         break;
       default:
-        speed = ""
+        speed = "";
     }
     return speed;
   }
   function calcHP() {
     var myclass = this.getField("class").value;
-    return 0;
+    var mylvl = this.getField("lvl").value;
+    var myconmod = this.getField("con-mod").value;
+
+    if (mylvl == "" || myclass == "" || myconmod == "") { return ""; }
+
+    var hitDice = calcHitDice();
+    var base = Number(hitDice.slice(hitDice.indexOf("d")+1));
+    var avg = base/2 + 1;
+
+    var hp = base + (mylvl-1)*(avg + myconmod);
+    return hp;
+  }
+  function calcHitDice() {
+    var myclass = this.getField("class").value;
+    var hitDice = this.getField("lvl").value;
+
+    switch (myclass) {
+      case "Barbarian":
+        hitDice += "d12";
+        break;
+      case "Fighter":
+      case "Paladin":
+      case "Ranger":
+        hitDice += "d10";
+        break;
+      case "Bard":
+      case "Cleric":
+      case "Druid":
+      case "Monk":
+      case "Rogue":
+      case "Warlock":
+        hitDice += "d8";
+        break;
+      case "Sorcerer":
+      case "Wizard":
+        hitDice += "d6";
+        break;
+      default:
+        hitDice = "";
+    }
+    return hitDice;
+  }
+  function processClass() {
+    // clear any previously set saving throws
+    this.getField("strST").value = "Off";
+    this.getField("dexST").value = "Off";
+    this.getField("conST").value = "Off";
+    this.getField("intST").value = "Off";
+    this.getField("wisST").value = "Off";
+    this.getField("chaST").value = "Off";
+    this.getField("other-profs").value = "";
+
+    var myclass = this.getField("class").value;
+    var profs;
+
+    switch (myclass) {
+      case "Barbarian":
+        this.getField("strST").value = "Yes";
+        this.getField("conST").value = "Yes";
+        profs = ["Simple weapons", "Martial weapons", "Light armor", "Medium armor", "Shields"];
+        break;
+      case "Bard":
+        this.getField("dexST").value = "Yes";
+        this.getField("chaST").value = "Yes";
+        profs = ["Simple weapons", "Light armor"];
+        break;
+      case "Cleric":
+        this.getField("wisST").value = "Yes";
+        this.getField("chaST").value = "Yes";
+        profs = ["Simple weapons", "Light armor", "Medium armor", "Shields"];
+        break;
+      case "Druid":
+        this.getField("intST").value = "Yes";
+        this.getField("wisST").value = "Yes";
+        profs = ["Simple weapons", "Herbalism Kit", "Light armor", "Shields"];
+        break;
+      case "Fighter":
+        this.getField("strST").value = "Yes";
+        this.getField("conST").value = "Yes";
+        profs = ["Simple weapons", "Martial weapons", "Light armor", "Medium armor", "Heavy armor", "Shields"];
+        break;
+      case "Monk":
+        this.getField("strST").value = "Yes";
+        this.getField("dexST").value = "Yes";
+        profs = ["Simple weapons", "Martial weapons (Light)"];
+        break;
+      case "Paladin":
+        this.getField("wisST").value = "Yes";
+        this.getField("chaST").value = "Yes";
+        profs = ["Simple weapons", "Martial weapons", "Light armor", "Medium armor", "Heavy armor", "Shields"];
+        break;
+      case "Ranger":
+        this.getField("strST").value = "Yes";
+        this.getField("dexST").value = "Yes";
+        profs = ["Simple weapons", "Martial weapons", "Light armor", "Medium armor", "Shields"];
+        break;
+      case "Rogue":
+        this.getField("dexST").value = "Yes";
+        this.getField("intST").value = "Yes";
+        profs = ["Simple weapons", "Martial weapons (Finesse, Light)", "Thieves' Tools", "Light armor"];
+        break;
+      case "Sorcerer":
+        this.getField("conST").value = "Yes";
+        this.getField("chaST").value = "Yes";
+        profs = ["Simple weapons"];
+        break;
+      case "Warlock":
+        this.getField("wisST").value = "Yes";
+        this.getField("chaST").value = "Yes";
+        profs = ["Simple weapons", "Light armor"];
+        break;
+      case "Wizard":
+        this.getField("intST").value = "Yes";
+        this.getField("wisST").value = "Yes";
+        profs = ["Simple weapons"];
+        break;
+    }
+    this.getField("other-profs").value += profs.join("\n");
+  }
+  function processSpecies() {
+    var myspecies = this.getField("species").value;
   }
   function formatBonus() {
     var mod = event.value;
@@ -106,17 +233,17 @@
     %\begin{tabular}{|cccc|}
     \begin{tabularx}{\textwidth}{| C{1.33} C{1.33} R{.33} C{1} |}
       \hline
-      \ChoiceMenu[name=class, width=0.3\textwidth, bordercolor=0 0 1, combo=true]{}{Fighter,Bard}&
+      \ChoiceMenu[name=class, width=0.3\textwidth, bordercolor=0 0 1, combo=true, calculate={processClass();}]{}{Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Warlock,Wizard}&
       \TextField[name=bgnd, width=0.3\textwidth, bordercolor=0 0 1]{}&
       \multicolumn{2}{c|}{\TextField[name=name, width=0.33\textwidth, bordercolor=0 0 1]{}}\\
       \textit{\footnotesize{Class}}& 
       \textit{\footnotesize{Background}}&
       \multicolumn{2}{c|}{\textit{\footnotesize{Player Name}}}\\
-      \ChoiceMenu[name=race, width=0.3\textwidth, bordercolor=0 0 1, combo=true]{}{Human,Elf,Dwarf}&
+      \ChoiceMenu[name=species, width=0.3\textwidth, bordercolor=0 0 1, combo=true]{}{Aasimar,Dragonborn,Dwarf,Elf,Gnome,Goliath,Halfling,Human,Orc,Tiefling}&
       \TextField[name=align, width=0.3\textwidth, bordercolor=0 0 1]{}&
       \TextField[name=lvl, width=0.1\textwidth, bordercolor=0 0 1, validate={event.rc = Number.isInteger(Number(event.value)) && Number(event.value) <= 20 && Number(event.value) > 0;}, format={formatLevel();}]{}&
       \TextField[name=xp, width=0.22\textwidth, bordercolor=0 0 1]{}\\
-      \textit{\footnotesize{Race}}&
+      \textit{\footnotesize{Species}}&
       \textit{\footnotesize{Alignment}}&
       \textit{\footnotesize{Level}}&
       \textit{\footnotesize{XP}}\\
@@ -192,60 +319,79 @@
       &Charisma\\
       \multicolumn{3}{|c|}{\textit{\footnotesize{Saving Throws}}}\\\hline
     \end{tabularx}
-    \begin{tabularx}{\textwidth}{| @{}L{1} @{}L{}@{} L{7}@{} |}
+    \begin{tabularx}{\textwidth}{| @{\hspace{.3em}}L{.5} @{\hspace{.3em}}L{}@{\hspace{.2em}} L{6.8}@{} |}
       \hline
-      \CheckBox[name=acr,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
-      \TextField[name=acr-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("dex-mod").value, this.getField("acr").value == "Yes");}]{}
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=acr,bordercolor=0 0 1, checkboxsymbol=\ding{110}]
+      {}}}&%
+      \TextField[name=acr-bonus, width=1em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("dex-mod").value, this.getField("acr").value == "Yes");}]{}
       &\footnotesize{Acrobatics} \textit{\scriptsize{(Dex)}}\\
-      \CheckBox[name=animalH,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=animalH,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=animalH-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("wis-mod").value, this.getField("animalH").value == "Yes");}]{}
       &\footnotesize{Animal H.} \textit{\scriptsize{(Wis)}}\\
-      \CheckBox[name=arcana,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=arcana,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=arcana-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("int-mod").value, this.getField("arcana").value == "Yes");}]{}
       &\footnotesize{Arcana} \textit{\scriptsize{(Int)}}\\
-      \CheckBox[name=athl,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=athl,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=athl-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("str-mod").value, this.getField("athl").value == "Yes");}]{}
       &\footnotesize{Athletics} \textit{\scriptsize{(Str)}}\\
-      \CheckBox[name=deception,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=deception,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=deception-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("cha-mod").value, this.getField("deception").value == "Yes");}]{}
       &\footnotesize{Deception} \textit{\scriptsize{(Cha)}}\\
-      \CheckBox[name=hist,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=hist,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=hist-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("int-mod").value, this.getField("hist").value == "Yes");}]{}
       &\footnotesize{History} \textit{\scriptsize{(Int)}}\\
-      \CheckBox[name=insight,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=insight,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=insight-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("wis-mod").value, this.getField("insight").value == "Yes");}]{}
       &\footnotesize{Insight} \textit{\scriptsize{(Wis)}}\\
-      \CheckBox[name=intimid,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=intimid,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=intimid-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("int-mod").value, this.getField("intimid").value == "Yes")}]{}
       &\footnotesize{Intimid.} \textit{\scriptsize{(Cha)}}\\
-      \CheckBox[name=inv,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=inv,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=inv-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("int-mod").value, this.getField("inv").value == "Yes");}]{}
       &\footnotesize{Investig.} \textit{\scriptsize{(Int)}}\\
-      \CheckBox[name=med,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=med,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=med-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("wis-mod").value, this.getField("med").value == "Yes");}]{}
       &\footnotesize{Medicine} \textit{\scriptsize{(Wis)}}\\
-      \CheckBox[name=nature,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=nature,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=nature-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("int-mod").value, this.getField("nature").value == "Yes");}]{}
       &\footnotesize{Nature} \textit{\scriptsize{(Int)}}\\
-      \CheckBox[name=perception,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=perception,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=perception-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("wis-mod").value, this.getField("perception").value == "Yes");}]{}
       &\footnotesize{Perception} \textit{\scriptsize{(Wis)}}\\
-      \CheckBox[name=perf,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=perf,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=perf-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("cha-mod").value, this.getField("perf").value == "Yes");}]{}
       &\footnotesize{Perform.} \textit{\scriptsize{(Cha)}}\\
-      \CheckBox[name=persuasion,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=persuasion,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=persuasion-bonus, width=1em,height=.5em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("cha-mod").value, this.getField("persuasion").value == "Yes");}]{}
       &\footnotesize{Persuasion} \textit{\scriptsize{(Cha)}}\\
-      \CheckBox[name=religion,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=religion,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=religion-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("int-mod").value, this.getField("religion").value == "Yes");}]{}
       &\footnotesize{Religion} \textit{\scriptsize{(Int)}}\\
-      \CheckBox[name=SofH,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=SofH,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=SofH-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("dex-mod").value, this.getField("SofH").value == "Yes");}]{}
       &\footnotesize{Sl. of Hand} \textit{\scriptsize{(Dex)}}\\
-      \CheckBox[name=stealth,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=stealth,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=stealth-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("dex-mod").value, this.getField("stealth").value == "Yes");}]{}
       &\footnotesize{Stealth} \textit{\scriptsize{(Dex)}}\\
-      \CheckBox[name=survival,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \makebox[6pt][l]{{\fontsize{6pt}{6pt}\selectfont 
+      \CheckBox[name=survival,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}}}&
       \TextField[name=survival-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={event.value = calcSkillMod(this.getField("wis-mod").value, this.getField("survival").value == "Yes");}]{}
       &\footnotesize{Survival} \textit{\scriptsize{(Wis)}}\\
       \multicolumn{3}{|c|}{\textit{\footnotesize{Skills}}}\\\hline
@@ -270,8 +416,9 @@
    % Other Proficiencies & Languages
    \begin{tabularx}{\textwidth}{|X|}
      \hline
-     \\\\\\\\\\\\\\\\\\\\\\\\\\\\
-     %\vspace{5em}\\
+    %  \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+     \vspace{.5em}
+      \TextField[name=other-profs, width=.95\textwidth, height=15.7em, multiline=true, bordercolor=0 0 1,]{}\\%
      \textit{\footnotesize{Other Proficiencies \& Languages}}\\
      \hline
    \end{tabularx}
@@ -326,9 +473,13 @@
      \begin{tabularx}{\textwidth}{|X|X|}
        \hline
        & Successes\\
+       \multirow{3}*{%
+      %  \hspace{1.5em}
+       \TextField[name=curr-hit-dice, width=1.8em,height=1.2em, charsize=.5em, bordercolor=0 0 1,]{}%
+       \Huge{/}\hspace{.1em}%
+       \TextField[name=hit-dice, align=1, width=1.5em,height=1.2em, charsize=.5em, bordercolor=1 1 1, readonly=true, calculate={event.value = calcHitDice();}]{}
+       }
        & \CheckBox[name=succ1,width=1em,height=1em,bordercolor=0 0 1]{} \CheckBox[name=succ2,width=1em,height=1em,bordercolor=0 0 1]{} \CheckBox[name=succ3,width=1em,height=1em,bordercolor=0 0 1]{}\\
-      %  \Huge{/}
-      %  \TextField[name=hit-dice, width=2em,height=1.5em, charsize=1.5em, bordercolor=1 1 1, readonly=true, calculate={event.value = calcHitDice();}]{}
        & Failures\\
        & \CheckBox[name=fail1,width=1em,height=1em,bordercolor=0 0 1]{} \CheckBox[name=fail2,width=1em,height=1em,bordercolor=0 0 1]{} \CheckBox[name=fail3,width=1em,height=1em,bordercolor=0 0 1]{}\\
        \textit{\footnotesize{Hit Dice / }}\textit{\footnotesize{Total}}&
