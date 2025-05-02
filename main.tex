@@ -54,8 +54,26 @@
       return mod;
     }
   }
-  function myfunc(foo) {
-    return foo;
+  function getSpeed() {
+    var race = this.getField("race").value;
+    var speed;
+
+    switch (race) {
+      case "Human":
+      case "Elf":
+        speed = 30;
+        break;
+      case "Dwarf":
+        speed = 30;
+        break;
+      default:
+        speed = ""
+    }
+    return speed;
+  }
+  function calcHP() {
+    var myclass = this.getField("class").value;
+    return 0;
   }
   function formatBonus() {
     var mod = event.value;
@@ -94,7 +112,7 @@
       \textit{\footnotesize{Class}}& 
       \textit{\footnotesize{Background}}&
       \multicolumn{2}{c|}{\textit{\footnotesize{Player Name}}}\\
-      \ChoiceMenu[name=race, width=0.3\textwidth, bordercolor=0 0 1, combo=true]{}{Human,Elf}&
+      \ChoiceMenu[name=race, width=0.3\textwidth, bordercolor=0 0 1, combo=true]{}{Human,Elf,Dwarf}&
       \TextField[name=align, width=0.3\textwidth, bordercolor=0 0 1]{}&
       \TextField[name=lvl, width=0.1\textwidth, bordercolor=0 0 1, validate={event.rc = Number.isInteger(Number(event.value)) && Number(event.value) <= 20 && Number(event.value) > 0;}, format={formatLevel();}]{}&
       \TextField[name=xp, width=0.22\textwidth, bordercolor=0 0 1]{}\\
@@ -267,9 +285,21 @@
        &&\\
       %  &&\\
        % &&\\
-      \TextField[name=ac, width=2em,height=2em, charsize=1.5em, bordercolor=1 1 1, readonly=true, align=1, calculate={%
-        event.value = 10 + this.getField("dex-mod").value;
-      }]{}&&\\
+      \TextField[name=ac, width=2em,height=2em, charsize=1.5em, bordercolor=1 1 1, align=1, calculate={%
+        if (this.getField("ac").value == "") {
+          event.value = 10 + this.getField("dex-mod").value;
+        }
+      }]{}&
+      \TextField[name=init, width=2em,height=2em, charsize=1.5em, bordercolor=1 1 1, align=1, format={formatBonus()}, calculate={%
+        if (this.getField("init").value == "") {
+          event.value = this.getField("dex-mod").value;
+        }
+      }]{}&
+      \TextField[name=speed, width=2em,height=2em, charsize=1.5em, bordercolor=1 1 1, align=1, calculate={%
+        if (this.getField("speed").value == "") {
+          event.value = getSpeed();
+        }
+      }]{}\\
        \textit{\scriptsize{Armor Class}}&
        \textit{\footnotesize{Initiative}}&
        \textit{\footnotesize{Speed}}\\
@@ -278,15 +308,17 @@
    \end{Form}
 
    % HP
-   \begin{tabularx}{\textwidth}{|@{}C{1}@{} @{}C{1}@{}|}
+   \begin{tabularx}{\textwidth}{|@{}C{1}@{} C{0} @{}C{1}@{}|}
      \hline
-     &\\&\\
-     \multicolumn{2}{|c|}{\Huge{/}}\\
-     &\\&\\
-     \textit{\footnotesize{Current Hit Points}}&\textit{\footnotesize{HP Maximum}}\\
+     &&\\&&\\
+     &\Huge{/}
+     &\TextField[name=hp-max, width=2em,height=1.5em, charsize=1.5em, bordercolor=1 1 1, readonly=true, calculate={event.value = calcHP();}]{}
+     \\
+     &&\\&&\\
+     \textit{\footnotesize{Current Hit Points}}&&\textit{\footnotesize{HP Maximum}}\\
      \hline
-     &\\&\\&\\&\\&\\&\\
-     \multicolumn{2}{|l|}{\textit{\footnotesize{Temporary Hit Points}}}\\
+     &&\\&&\\&&\\&&\\&&\\&&\\
+     \multicolumn{3}{|l|}{\textit{\footnotesize{Temporary Hit Points}}}\\
      \hline
    \end{tabularx}
 
@@ -295,7 +327,9 @@
        \hline
        & Successes\\
        & \CheckBox[name=succ1,width=1em,height=1em,bordercolor=0 0 1]{} \CheckBox[name=succ2,width=1em,height=1em,bordercolor=0 0 1]{} \CheckBox[name=succ3,width=1em,height=1em,bordercolor=0 0 1]{}\\
-      & Failures\\
+      %  \Huge{/}
+      %  \TextField[name=hit-dice, width=2em,height=1.5em, charsize=1.5em, bordercolor=1 1 1, readonly=true, calculate={event.value = calcHitDice();}]{}
+       & Failures\\
        & \CheckBox[name=fail1,width=1em,height=1em,bordercolor=0 0 1]{} \CheckBox[name=fail2,width=1em,height=1em,bordercolor=0 0 1]{} \CheckBox[name=fail3,width=1em,height=1em,bordercolor=0 0 1]{}\\
        \textit{\footnotesize{Hit Dice / }}\textit{\footnotesize{Total}}&
        \textit{\footnotesize{Death Saves}}\\
