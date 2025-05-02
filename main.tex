@@ -44,15 +44,18 @@
     }
   }
   function calcSkillMod(ability_mod, add_proficiency) {
-    if (ability_mod == "") { return ""; }
-    else {
-      var mod = ability_mod;
-      if (add_proficiency) {
-        var profbonus = 0+this.getField("prof-bonus").value;
-        mod += profbonus;
-      } 
-      return mod;
+    var skill_mod;
+    if (ability_mod == "") { 
+      skill_mod = ability_mod;
     }
+    else {
+      skill_mod = Number(ability_mod);
+      var profbonus = Number(this.getField("prof-bonus").value);
+      if (add_proficiency) {
+        skill_mod += profbonus;
+      } 
+    }
+    return skill_mod;
   }
   function getSpeed() {
     var species = this.getField("species").value;
@@ -124,12 +127,11 @@
   }
   function processClass() {
     // clear any previously set saving throws
-    this.getField("strST").value = "Off";
-    this.getField("dexST").value = "Off";
-    this.getField("conST").value = "Off";
-    this.getField("intST").value = "Off";
-    this.getField("wisST").value = "Off";
-    this.getField("chaST").value = "Off";
+    var prevSTs = this.getField("classSTs").value.split(",");
+    for (var i = 0; i < prevSTs.length; i++) {
+      var f = this.getField(prevSTs[i]);
+      if (f) f.checkThisBox(0, false);
+    }
     this.getField("other-profs").value = "";
 
     var myclass = this.getField("class").value;
@@ -137,76 +139,158 @@
 
     switch (myclass) {
       case "Barbarian":
-        this.getField("strST").value = "Yes";
-        this.getField("conST").value = "Yes";
+        st_list = ["strST", "conST"];
         profs = ["Simple weapons", "Martial weapons", "Light armor", "Medium armor", "Shields"];
         break;
       case "Bard":
-        this.getField("dexST").value = "Yes";
-        this.getField("chaST").value = "Yes";
+        st_list = ["dexST", "chaST"];
         profs = ["Simple weapons", "Light armor"];
         break;
       case "Cleric":
-        this.getField("wisST").value = "Yes";
-        this.getField("chaST").value = "Yes";
+        st_list = ["dexST", "chaST"];
         profs = ["Simple weapons", "Light armor", "Medium armor", "Shields"];
         break;
       case "Druid":
-        this.getField("intST").value = "Yes";
-        this.getField("wisST").value = "Yes";
+        st_list = ["intST", "wisST"];
         profs = ["Simple weapons", "Herbalism Kit", "Light armor", "Shields"];
         break;
       case "Fighter":
-        this.getField("strST").value = "Yes";
-        this.getField("conST").value = "Yes";
+        st_list = ["strST", "conST"];
         profs = ["Simple weapons", "Martial weapons", "Light armor", "Medium armor", "Heavy armor", "Shields"];
         break;
       case "Monk":
-        this.getField("strST").value = "Yes";
-        this.getField("dexST").value = "Yes";
+        st_list = ["strST", "dexST"];
         profs = ["Simple weapons", "Martial weapons (Light)"];
         break;
       case "Paladin":
-        this.getField("wisST").value = "Yes";
-        this.getField("chaST").value = "Yes";
+        st_list = ["wisST", "chaST"];
         profs = ["Simple weapons", "Martial weapons", "Light armor", "Medium armor", "Heavy armor", "Shields"];
         break;
       case "Ranger":
-        this.getField("strST").value = "Yes";
-        this.getField("dexST").value = "Yes";
+        st_list = ["strST", "dexST"];
         profs = ["Simple weapons", "Martial weapons", "Light armor", "Medium armor", "Shields"];
         break;
       case "Rogue":
-        this.getField("dexST").value = "Yes";
-        this.getField("intST").value = "Yes";
+        st_list = ["dexST", "intST"];
         profs = ["Simple weapons", "Martial weapons (Finesse, Light)", "Thieves' Tools", "Light armor"];
         break;
       case "Sorcerer":
-        this.getField("conST").value = "Yes";
-        this.getField("chaST").value = "Yes";
+        st_list = ["conST", "chaST"];
         profs = ["Simple weapons"];
         break;
       case "Warlock":
-        this.getField("wisST").value = "Yes";
-        this.getField("chaST").value = "Yes";
+        st_list = ["wisST", "chaST"];
         profs = ["Simple weapons", "Light armor"];
         break;
       case "Wizard":
-        this.getField("intST").value = "Yes";
-        this.getField("wisST").value = "Yes";
+        st_list = ["intST", "wisST"];
         profs = ["Simple weapons"];
         break;
     }
+    for (var i = 0; i < st_list.length; i++) {
+      var f = this.getField(st_list[i]);
+      if (f) f.checkThisBox(0, true);
+    }
     this.getField("other-profs").value += profs.join("\n");
+
+    // save which STs came from this class
+    this.getField("classSTs").value = st_list.join(",");
   }
   function processSpecies() {
     var myspecies = this.getField("species").value;
   }
+  function processBgnd() {
+    // clear any previously set saving throws
+    var prevProfs = this.getField("bgndProfs").value.split(",");
+    for (var i = 0; i < prevProfs.length; i++) {
+      var f = this.getField(prevProfs[i]);
+      if (f) f.checkThisBox(0, false);
+    }
+
+    var mybgnd = this.getField("bgnd").value;
+    var skills;
+    var profs;
+
+    switch (mybgnd) {
+      case "Acolyte":
+        skills = ["insight", "religion"];
+        profs = ["Calligrapher's Supplies"];
+        break;
+      case "Artisan":
+        skills = ["investig", "persuasion"];
+        profs = ["Artisan's Tools (choose one)"];
+        break;
+      case "Charlatan":
+        skills = ["deception", "SofH"];
+        profs = ["Forgery Kit"];
+        break;
+      case "Criminal":
+        skills = ["SofH", "stealth"];
+        profs = ["Thieves' Tools"];
+        break;
+      case "Entertainer":
+        skills = ["acr", "perf"];
+        profs = ["Musical Instrument (choose one)"];
+        break;
+      case "Farmer":
+        skills = ["animalH", "nature"];
+        profs = ["Carpenter's Tools"];
+        break;
+      case "Guard":
+        skills = ["athl", "perception"];
+        profs = ["Gaming Set (choose one)"];
+        break;
+      case "Guide":
+        skills = ["stealth", "survival"];
+        profs = ["Cartographer's Tools"];
+        break;
+      case "Hermit":
+        skills = ["med", "religion"];
+        profs = ["Herbalism Kit"];
+        break;
+      case "Merchant":
+        skills = ["animalH", "persuasion"];
+        profs = ["Navigator's Tools"];
+        break;
+      case "Noble":
+        skills = ["hist", "persuasion"];
+        profs = ["Gaming Set (choose one)"];
+        break;
+      case "Sage":
+        skills = ["arcana", "hist"];
+        profs = ["Calligrapher's Supplies"];
+        break;
+      case "Sailor":
+        skills = ["acr", "perception"];
+        profs = ["Navigator's Tools"];
+        break;
+      case "Scribe":
+        skills = ["inv", "perception"];
+        profs = ["Calligrapher's Supplies"];
+        break;
+      case "Soldier":
+        skills = ["athl", "intimid"];
+        profs = ["Gaming Set (choose one)"];
+        break;
+      case "Wayfarer":
+        skills = ["insight", "stealth"];
+        profs = ["Thieves' Tools"];
+        break;
+    }
+    for (var i = 0; i < skills.length; i++) {
+      var f = this.getField(skills[i]);
+      if (f) f.checkThisBox(0, true);
+    }
+    this.getField("other-profs").value += "\n" + profs.join("\n");
+
+    // save which STs came from this class
+    this.getField("bgndProfs").value = skills.join(",");
+  }
   function formatBonus() {
-    var mod = event.value;
-    if (mod == "+" || mod == "-" || mod == "") { event.value = "" }
-    else if (mod >= 0) { event.value = "+" + mod; }
-    else if (mod < 0) { event.value = mod; }
+    var bonus = event.value;
+    if (bonus == "") { event.value = "" }
+    else if (bonus >= 0) { event.value = "+" + bonus; }
+    else if (bonus < 0) { event.value = bonus; }
     else { event.value = ""; }
   }
   function formatLevel() {
@@ -219,6 +303,11 @@
 \end{insDLJS}
 
 \begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% persistent state
+\TextField[name=classSTs,hidden=true,readonly=true,width=0pt,borderwidth=0]{}
+\TextField[name=bgndProfs,hidden=true,readonly=true,width=0pt,borderwidth=0]{}
 
 %\begin{multicols}{2}
 
@@ -234,7 +323,7 @@
     \begin{tabularx}{\textwidth}{| C{1.33} C{1.33} R{.33} C{1} |}
       \hline
       \ChoiceMenu[name=class, width=0.3\textwidth, bordercolor=0 0 1, combo=true, calculate={processClass();}]{}{Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Warlock,Wizard}&
-      \TextField[name=bgnd, width=0.3\textwidth, bordercolor=0 0 1]{}&
+      \ChoiceMenu[name=bgnd, width=0.3\textwidth, bordercolor=0 0 1,combo=true, calculate={processBgnd();}]{}{Acolyte,Artisan,Charlatan,Criminal,Entertainer,Farmer,Guard,Guide,Hermit,Merchant,Noble,Sage,Sailor,Scribe,Soldier,Wayfarer}&
       \multicolumn{2}{c|}{\TextField[name=name, width=0.33\textwidth, bordercolor=0 0 1]{}}\\
       \textit{\footnotesize{Class}}& 
       \textit{\footnotesize{Background}}&
@@ -468,7 +557,7 @@
     %  &&\\&&\\&&\\&&\\&&\\&&\\
      &&\\
      \multicolumn{3}{|l|}{
-      \TextField[width=.9\textwidth, height=5.6em, multiline=true, bordercolor=0 0 1,]{}}\\%
+      \TextField[name=temphp,width=.9\textwidth, height=5.6em, multiline=true, bordercolor=0 0 1,]{}}\\%
      \multicolumn{3}{|l|}{\textit{\footnotesize{Temporary Hit Points}}}\\
      \hline
    \end{tabularx}
@@ -495,21 +584,21 @@
    \begin{tabularx}{\textwidth}{|L{1.2}L{.6}L{1.2}|}
      \hline
      \textit{\footnotesize{Name}} & \textit{\footnotesize{Atk Bonus}} & \textit{\footnotesize{Damage/Type}}\\
-      \TextField[width=.35\textwidth,bordercolor=0 0 1]{}&%
-      \TextField[width=.17\textwidth,bordercolor=0 0 1]{}&%
-      \TextField[width=.33\textwidth,bordercolor=0 0 1]{}\\[1ex]
-      \TextField[width=.35\textwidth,bordercolor=0 0 1]{}&%
-      \TextField[width=.17\textwidth,bordercolor=0 0 1]{}&%
-      \TextField[width=.33\textwidth,bordercolor=0 0 1]{}\\[1ex]
-      \TextField[width=.35\textwidth,bordercolor=0 0 1]{}&%
-      \TextField[width=.17\textwidth,bordercolor=0 0 1]{}&%
-      \TextField[width=.33\textwidth,bordercolor=0 0 1]{}\\[1ex]
-      \TextField[width=.35\textwidth,bordercolor=0 0 1]{}&%
-      \TextField[width=.17\textwidth,bordercolor=0 0 1]{}&%
-      \TextField[width=.33\textwidth,bordercolor=0 0 1]{}\\[1ex]
-      \TextField[width=.35\textwidth,bordercolor=0 0 1]{}&%
-      \TextField[width=.17\textwidth,bordercolor=0 0 1]{}&%
-      \TextField[width=.33\textwidth,bordercolor=0 0 1]{}\\[.2ex]
+      \TextField[name=atk1,width=.35\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[name=atkb1,width=.17\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[name=dmg1,width=.33\textwidth,bordercolor=0 0 1]{}\\[1ex]
+      \TextField[name=atk2,width=.35\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[name=atkb2,width=.17\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[name=dmg2,width=.33\textwidth,bordercolor=0 0 1]{}\\[1ex]
+      \TextField[name=atk3,width=.35\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[name=atkb3,width=.17\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[name=dmg3,width=.33\textwidth,bordercolor=0 0 1]{}\\[1ex]
+      \TextField[name=atk4,width=.35\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[name=atkb4,width=.17\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[name=dmg4,width=.33\textwidth,bordercolor=0 0 1]{}\\[1ex]
+      \TextField[name=atk5,width=.35\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[name=atkb5,width=.17\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[name=dmg5,width=.33\textwidth,bordercolor=0 0 1]{}\\[.2ex]
      \multicolumn{2}{|l}{\textit{\footnotesize{Attacks \& Spellcasting}}}&\\
      \hline
    \end{tabularx}
@@ -521,7 +610,7 @@
      &Miscellaneous:\\
      PP \TextField[name=gp,width=.14\textwidth,bordercolor=0 0 1]{} &
      \multirow{10}*{
-      \TextField[width=.6\textwidth, height=12.7em, multiline=true, bordercolor=0 0 1,]{}}\\[1ex]%
+      \TextField[name=misc,width=.6\textwidth, height=12.7em, multiline=true, bordercolor=0 0 1,]{}}\\[1ex]%
     %  \rule{.6\textwidth}{.2pt}\\
      GP \TextField[name=ep,width=.14\textwidth,bordercolor=0 0 1]{} &
     %  \rule{.6\textwidth}{.2pt}
@@ -549,22 +638,22 @@
      \hline
     %  \\\\\\\\\\
     \vspace{.5em}
-    \TextField[width=1.04\textwidth, height=5.1em, multiline=true, bordercolor=0 0 1]{}\\%
+    \TextField[name=personality,width=1.04\textwidth, height=5.1em, multiline=true, bordercolor=0 0 1]{}\\%
      \textit{\footnotesize{Personality Traits}}\\
      \hline
     %  \\\\\\\\\\
     \vspace{.5em}
-    \TextField[width=1.04\textwidth, height=5.1em, multiline=true, bordercolor=0 0 1]{}\\%
+    \TextField[name=ideals,width=1.04\textwidth, height=5.1em, multiline=true, bordercolor=0 0 1]{}\\%
      \textit{\footnotesize{Ideals}}\\
      \hline
     %  \\\\\\\\\\
     \vspace{.5em}
-    \TextField[width=1.04\textwidth, height=5.1em, multiline=true, bordercolor=0 0 1]{}\\%
+    \TextField[name=bonds,width=1.04\textwidth, height=5.1em, multiline=true, bordercolor=0 0 1]{}\\%
      \textit{\footnotesize{Bonds}}\\
      \hline
     %  \\\\\\\\\\
     \vspace{.5em}
-    \TextField[width=1.04\textwidth, height=5.1em, multiline=true, bordercolor=0 0 1]{}\\%
+    \TextField[name=flaws,width=1.04\textwidth, height=5.1em, multiline=true, bordercolor=0 0 1]{}\\%
      \textit{\footnotesize{Flaws}}\\
      \hline
    \end{tabular}
@@ -573,7 +662,7 @@
      \hline
     %  \vspace{28em}
       \vspace{.5em}
-      \TextField[width=1.04\textwidth, height=27.2em, multiline=true, bordercolor=0 0 1]{}\\%
+      \TextField[name=traits,width=1.04\textwidth, height=27.2em, multiline=true, bordercolor=0 0 1]{}\\%
      \textit{\footnotesize{Features \& Traits}}\\
      \hline
    \end{tabular}
