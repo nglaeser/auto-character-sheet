@@ -458,13 +458,17 @@
    \begin{tabularx}{\textwidth}{|@{}C{1}@{} C{0} @{}C{1}@{}|}
      \hline
      &&\\&&\\
+     \TextField[name=current-hp, align=1, width=3em,height=1.8em, charsize=1.5em, bordercolor=0 0 1]{}
      &\Huge{/}
      &\TextField[name=hp-max, width=2em,height=1.5em, charsize=1.5em, bordercolor=1 1 1, readonly=true, calculate={event.value = calcHP();}]{}
      \\
      &&\\&&\\
      \textit{\footnotesize{Current Hit Points}}&&\textit{\footnotesize{HP Maximum}}\\
      \hline
-     &&\\&&\\&&\\&&\\&&\\&&\\
+    %  &&\\&&\\&&\\&&\\&&\\&&\\
+     &&\\
+     \multicolumn{3}{|l|}{
+      \TextField[width=.9\textwidth, height=5.6em, multiline=true, bordercolor=0 0 1,]{}}\\%
      \multicolumn{3}{|l|}{\textit{\footnotesize{Temporary Hit Points}}}\\
      \hline
    \end{tabularx}
@@ -491,26 +495,51 @@
    \begin{tabularx}{\textwidth}{|L{1.2}L{.6}L{1.2}|}
      \hline
      \textit{\footnotesize{Name}} & \textit{\footnotesize{Atk Bonus}} & \textit{\footnotesize{Damage/Type}}\\
-     &&\\&&\\&&\\&&\\&&\\&&\\&&\\&&\\
+      \TextField[width=.35\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[width=.17\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[width=.33\textwidth,bordercolor=0 0 1]{}\\[1ex]
+      \TextField[width=.35\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[width=.17\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[width=.33\textwidth,bordercolor=0 0 1]{}\\[1ex]
+      \TextField[width=.35\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[width=.17\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[width=.33\textwidth,bordercolor=0 0 1]{}\\[1ex]
+      \TextField[width=.35\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[width=.17\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[width=.33\textwidth,bordercolor=0 0 1]{}\\[1ex]
+      \TextField[width=.35\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[width=.17\textwidth,bordercolor=0 0 1]{}&%
+      \TextField[width=.33\textwidth,bordercolor=0 0 1]{}\\[.2ex]
      \multicolumn{2}{|l}{\textit{\footnotesize{Attacks \& Spellcasting}}}&\\
      \hline
    \end{tabularx}
 
    %\Large{\textit{Treasure}}\\
-   \begin{tabularx}{\textwidth}{|L{.6}L{1.4}|}
+   \begin{tabularx}{\textwidth}{|L{.6}@{}L{1.4}|}
      \hline
      \textit{\footnotesize{Treasure}}&\\
-     PP \TextField[name=pp,width=.14\textwidth,bordercolor=0 0 1]{}&Miscellaneous:\\
-     GP \TextField[name=gp,width=.14\textwidth,bordercolor=0 0 1]{} &\rule{.6\textwidth}{.2pt}\\
-     EP \TextField[name=ep,width=.14\textwidth,bordercolor=0 0 1]{} &\rule{.6\textwidth}{.2pt}\\
-     SP \TextField[name=sp,width=.14\textwidth,bordercolor=0 0 1]{} &\rule{.6\textwidth}{.2pt}\\
-     CP \TextField[name=cp,width=.14\textwidth,bordercolor=0 0 1]{} &\rule{.6\textwidth}{.2pt}\\
-     \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
-     \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
-     \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
-     \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
-     \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
-     \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
+     &Miscellaneous:\\
+     PP \TextField[name=gp,width=.14\textwidth,bordercolor=0 0 1]{} &
+     \multirow{10}*{
+      \TextField[width=.6\textwidth, height=12.7em, multiline=true, bordercolor=0 0 1,]{}}\\[1ex]%
+    %  \rule{.6\textwidth}{.2pt}\\
+     GP \TextField[name=ep,width=.14\textwidth,bordercolor=0 0 1]{} &
+    %  \rule{.6\textwidth}{.2pt}
+    \\[1ex]
+     EP \TextField[name=sp,width=.14\textwidth,bordercolor=0 0 1]{} &
+    %  \rule{.6\textwidth}{.2pt}
+     \\[1ex]
+     SP \TextField[name=cp,width=.14\textwidth,bordercolor=0 0 1]{} &
+    %  \rule{.6\textwidth}{.2pt}
+     \\[1ex]
+     CP \TextField[name=pp,width=.14\textwidth,bordercolor=0 0 1]{}&\\
+     &\\&\\&\\[1.5ex]
+    %  \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
+    %  \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
+    %  \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
+    %  \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
+    %  \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
+    %  \multicolumn{2}{|l|}{\rule{.9\textwidth}{.2pt}}\\
      \hline
    \end{tabularx}
  \end{minipage} %\vfill\null\columnbreak
@@ -518,23 +547,33 @@
    %%%%%%%%%%%%%%  column 2 %%%%%%%%%%%%%%%%
    \begin{tabular}{|m{\textwidth}|}
      \hline
-     \\\\\\\\\\
+    %  \\\\\\\\\\
+    \vspace{.5em}
+    \TextField[width=1.04\textwidth, height=5.1em, multiline=true, bordercolor=0 0 1]{}\\%
      \textit{\footnotesize{Personality Traits}}\\
      \hline
-     \\\\\\\\\\
+    %  \\\\\\\\\\
+    \vspace{.5em}
+    \TextField[width=1.04\textwidth, height=5.1em, multiline=true, bordercolor=0 0 1]{}\\%
      \textit{\footnotesize{Ideals}}\\
      \hline
-     \\\\\\\\\\
+    %  \\\\\\\\\\
+    \vspace{.5em}
+    \TextField[width=1.04\textwidth, height=5.1em, multiline=true, bordercolor=0 0 1]{}\\%
      \textit{\footnotesize{Bonds}}\\
      \hline
-     \\\\\\\\\\
+    %  \\\\\\\\\\
+    \vspace{.5em}
+    \TextField[width=1.04\textwidth, height=5.1em, multiline=true, bordercolor=0 0 1]{}\\%
      \textit{\footnotesize{Flaws}}\\
      \hline
    \end{tabular}
 
    \begin{tabular}{|m{\textwidth}|}
      \hline
-     \vspace{28em}
+    %  \vspace{28em}
+      \vspace{.5em}
+      \TextField[width=1.04\textwidth, height=27.2em, multiline=true, bordercolor=0 0 1]{}\\%
      \textit{\footnotesize{Features \& Traits}}\\
      \hline
    \end{tabular}
