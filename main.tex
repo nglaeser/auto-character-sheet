@@ -74,22 +74,22 @@
 \begin{minipage}{0.6\textwidth}
   \begin{Form}
     %\begin{tabular}{|cccc|}
-    \begin{tabularx}{\textwidth}{| C{1.33} C{1.33} R{.33} R{1} |}
+    \begin{tabularx}{\textwidth}{| C{1.33} C{1.33} R{.33} C{1} |}
       \hline
-      \TextField[name=class, width=0.3\textwidth, bordercolor=0 0 1]{}&
+      \ChoiceMenu[name=class, width=0.3\textwidth, bordercolor=0 0 1, combo=true]{}{Fighter,Bard}&
       \TextField[name=bgnd, width=0.3\textwidth, bordercolor=0 0 1]{}&
       \multicolumn{2}{c|}{\TextField[name=name, width=0.33\textwidth, bordercolor=0 0 1]{}}\\
       \textit{\footnotesize{Class}}& 
       \textit{\footnotesize{Background}}&
       \multicolumn{2}{c|}{\textit{\footnotesize{Player Name}}}\\
-      \TextField[name=race, width=0.3\textwidth, bordercolor=0 0 1]{}&
+      \ChoiceMenu[name=race, width=0.3\textwidth, bordercolor=0 0 1, combo=true]{}{Human,Elf}&
       \TextField[name=align, width=0.3\textwidth, bordercolor=0 0 1]{}&
-      \TextField[name=lvl, width=0.1\textwidth, bordercolor=0 0 1, format={formatLevel();}]{}&
+      \TextField[name=lvl, width=0.1\textwidth, bordercolor=0 0 1, validate={event.rc = Number.isInteger(Number(event.value)) && Number(event.value) <= 20 && Number(event.value) > 0;}, format={formatLevel();}]{}&
       \TextField[name=xp, width=0.22\textwidth, bordercolor=0 0 1]{}\\
       \textit{\footnotesize{Race}}&
       \textit{\footnotesize{Alignment}}&
       \textit{\footnotesize{Level}}&
-      \textit{\footnotesize{Experience Pts}}\\
+      \textit{\footnotesize{XP}}\\
       \hline
     \end{tabularx}
     %\end{tabular}
@@ -281,29 +281,263 @@
       &Charisma\\
       \multicolumn{3}{|c|}{\textit{\footnotesize{Saving Throws}}}\\\hline
     \end{tabularx}
-    \begin{tabularx}{\textwidth}{| L{.05} L{1.95} |}
+    \begin{tabularx}{\textwidth}{| @{}L{1} @{}L{}@{} L{7}@{} |}
       \hline
+      \CheckBox[name=acr,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=acr-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("dex-mod").value == "") { this.getField("acr-bonus").value = "" }
+        else {
+          var proficient = this.getField("acr").value == "Yes";
+          var bonus = 0+this.getField("dex-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Acrobatics} \textit{\scriptsize{(Dex)}}\\
-      &\footnotesize{An.Handl.} \textit{\scriptsize{(Wis)}}\\
+      \CheckBox[name=animalH,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=animalH-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("wis-mod").value == "") { this.getField("animalH-bonus").value = "" }
+        else {
+          var proficient = this.getField("animalH").value == "Yes";
+          var bonus = 0+this.getField("wis-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
+      &\footnotesize{Animal H.} \textit{\scriptsize{(Wis)}}\\
+      \CheckBox[name=arcana,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=arcana-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("int-mod").value == "") { this.getField("arcana-bonus").value = "" }
+        else {
+          var proficient = this.getField("arcana").value == "Yes";
+          var bonus = 0+this.getField("int-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Arcana} \textit{\scriptsize{(Int)}}\\
+      \CheckBox[name=athl,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=athl-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("str-mod").value == "") { this.getField("athl-bonus").value = "" }
+        else {
+          var proficient = this.getField("athl").value == "Yes";
+          var bonus = 0+this.getField("str-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Athletics} \textit{\scriptsize{(Str)}}\\
+      \CheckBox[name=deception,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=deception-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("cha-mod").value == "") { this.getField("deception-bonus").value = "" }
+        else {
+          var proficient = this.getField("deception").value == "Yes";
+          var bonus = 0+this.getField("cha-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Deception} \textit{\scriptsize{(Cha)}}\\
+      \CheckBox[name=hist,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=hist-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("int-mod").value == "") { this.getField("hist-bonus").value = "" }
+        else {
+          var proficient = this.getField("hist").value == "Yes";
+          var bonus = 0+this.getField("int-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{History} \textit{\scriptsize{(Int)}}\\
+      \CheckBox[name=insight,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=insight-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("wis-mod").value == "") { this.getField("insight-bonus").value = "" }
+        else {
+          var proficient = this.getField("insight").value == "Yes";
+          var bonus = 0+this.getField("int-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Insight} \textit{\scriptsize{(Wis)}}\\
+      \CheckBox[name=intimid,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=intimid-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("cha-mod").value == "") { this.getField("intimid-bonus").value = "" }
+        else {
+          var proficient = this.getField("intimid").value == "Yes";
+          var bonus = 0+this.getField("cha-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Intimid.} \textit{\scriptsize{(Cha)}}\\
+      \CheckBox[name=inv,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=inv-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("int-mod").value == "") { this.getField("inv-bonus").value = "" }
+        else {
+          var proficient = this.getField("inv").value == "Yes";
+          var bonus = 0+this.getField("int-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Investig.} \textit{\scriptsize{(Int)}}\\
+      \CheckBox[name=med,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=med-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("wis-mod").value == "") { this.getField("med-bonus").value = "" }
+        else {
+          var proficient = this.getField("med").value == "Yes";
+          var bonus = 0+this.getField("wis-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Medicine} \textit{\scriptsize{(Wis)}}\\
+      \CheckBox[name=nature,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=nature-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("int-mod").value == "") { this.getField("nature-bonus").value = "" }
+        else {
+          var proficient = this.getField("nature").value == "Yes";
+          var bonus = 0+this.getField("int-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Nature} \textit{\scriptsize{(Int)}}\\
+      \CheckBox[name=perception,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=perception-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("wis-mod").value == "") { this.getField("perception-bonus").value = "" }
+        else {
+          var proficient = this.getField("perception").value == "Yes";
+          var bonus = 0+this.getField("wis-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Perception} \textit{\scriptsize{(Wis)}}\\
-      &\footnotesize{Perf.} \textit{\scriptsize{(Cha)}}\\
+      \CheckBox[name=perf,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=perf-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("cha-mod").value == "") { this.getField("perf-bonus").value = "" }
+        else {
+          var proficient = this.getField("perf").value == "Yes";
+          var bonus = 0+this.getField("cha-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
+      &\footnotesize{Perform.} \textit{\scriptsize{(Cha)}}\\
+      \CheckBox[name=persuasion,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=persuasion-bonus, width=1em,height=.5em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("cha-mod").value == "") { this.getField("persuasion-bonus").value = "" }
+        else {
+          var proficient = this.getField("persuasion").value == "Yes";
+          var bonus = 0+this.getField("cha-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Persuasion} \textit{\scriptsize{(Cha)}}\\
+      \CheckBox[name=religion,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=religion-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("int-mod").value == "") { this.getField("religion-bonus").value = "" }
+        else {
+          var proficient = this.getField("religion").value == "Yes";
+          var bonus = 0+this.getField("int-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Religion} \textit{\scriptsize{(Int)}}\\
+      \CheckBox[name=SofH,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=SofH-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("dex-mod").value == "") { this.getField("SofH-bonus").value = "" }
+        else {
+          var proficient = this.getField("SofH").value == "Yes";
+          var bonus = 0+this.getField("dex-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Sl. of Hand} \textit{\scriptsize{(Dex)}}\\
+      \CheckBox[name=stealth,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=stealth-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("dex-mod").value == "") { this.getField("stealth-bonus").value = "" }
+        else {
+          var proficient = this.getField("stealth").value == "Yes";
+          var bonus = 0+this.getField("dex-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Stealth} \textit{\scriptsize{(Dex)}}\\
+      \CheckBox[name=survival,width=.5em,height=.5em,bordercolor=0 0 1, checkboxsymbol=\ding{110}]{}&
+      \TextField[name=survival-bonus, width=1em,height=.5em, charsize=.8em, bordercolor=1 1 1, readonly=true, format={formatBonus();}, calculate={%
+        if (this.getField("wis-mod").value == "") { this.getField("survival-bonus").value = "" }
+        else {
+          var proficient = this.getField("survival").value == "Yes";
+          var bonus = 0+this.getField("wis-mod").value;
+          if (proficient) {
+            var profbonus = 0+this.getField("prof-bonus").value;
+            bonus += profbonus;
+          } 
+          event.value = bonus;
+        }
+      }]{}
       &\footnotesize{Survival} \textit{\scriptsize{(Wis)}}\\
-      &\textit{\footnotesize{Skills}}\\\hline
+      \multicolumn{3}{|c|}{\textit{\footnotesize{Skills}}}\\\hline
     \end{tabularx}
-  \vspace{2em}
+  % \vspace{2em}
   \end{minipage}
   % Passive perception
   %\begin{minipage}{.33\textwidth}
@@ -312,7 +546,12 @@
   \begin{tabularx}{\textwidth}{| @{}C{.3}@{} | @{\hspace{.5em}}C{1.7} |}
      \hline
      %&\\
-     \TextField[name=passive,width=.15\textwidth,height=3em,bordercolor=0 0 1]{}
+     \TextField[name=passive,width=.15\textwidth,height=3em,bordercolor=0 0 0, borderwidth=0, readonly=true, align=1, charsize=1.5em, calculate={%
+        if (this.getField("perception").value == "") { this.getField("passive").value = "" }
+        else {
+          event.value = 10+this.getField("perception-bonus").value;
+        }
+     }]{}
        &\small{Passive Wisdom (Perception)}\\
      %&\\
      \hline

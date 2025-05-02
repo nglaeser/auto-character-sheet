@@ -1,15 +1,9 @@
 # tex files
-*.aux
-*.dvi
-*.fdb_latexmk
-*.fls
-*.log
-*.out
-*.pdf
-*.synctex.gz
+build/
 
 # other
 *.swp
+.DS_Store
 
 # examples
 hny.tex
